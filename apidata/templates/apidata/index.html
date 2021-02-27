@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <title>API Data</title>
+</head>
+<body>
+    <row>
+        <div>
+            <form action="" method="GET">
+                Name<input type="text" name="name" value={{name}}>
+                Location<input type="text" name="location" value={{location}}>
+                Limit<input type="number" name="limit" value={{limit}}><br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </row>
+    <row>
+        <div>
+            <table>
+                <tr>
+                    <th>Hostel Name</th>
+                    <th>Hostel Location</th>
+                    <th>Hostel Rating</th>
+                </tr>
+                {% for hostel in hostels %}
+                <tr>
+                    <td> {{ hostel.name }} </td>
+                    <td> {{ hostel.location }} </td>
+                    <td> {{ hostel.rating|floatformat:2 }} </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <br>
+            <form action="csv" method="GET">
+                <input type="hidden" name="name" value={{name}}>
+                <input type="hidden" name="location" value={{location}}>
+                <input type="hidden" name="limit" value={{limit}}>
+                <button type="submit">Download CSV</button>
+            </form>
+        </div>
+    </row>
+</body>
+</html>
