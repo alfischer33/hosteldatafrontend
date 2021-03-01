@@ -18,7 +18,7 @@ def index(request):
                 vars[var] = ''
         return vars
     
-    filter_list = ['location', 'name', 'sort', 'limit']
+    filter_list = ['location', 'name', 'sort', 'limit', 'amenity', 'csv']
     filters=get_var_dict(filter_list)
 
     url = 'https://hosteldata.herokuapp.com/json?' + '&'.join([(f + f'={filters[f]}') for f in filters if filters[f]!=''])
@@ -28,9 +28,18 @@ def index(request):
     hostels = [dict(hostels_json[hostel]) for hostel in hostels_json]
     print(f'{len(hostels)} hostels returned')
 
+    if filters['csv'] == 'true':
+        hostels_df = pd.read_json(requests.get(url).text, orient='index')
+        csv = hostels_df.to_csv()
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment;filename="hosteldata.csv"'
+        response.write(csv)
+
+        return response
+
     context = filters.copy()
     context['hostels'] = hostels
-    context['url'] = url
 
     return render(request, "apidata/index.html", context)
 
@@ -39,11 +48,13 @@ def get_csv(request):
         vars = {}
         for var in var_list:
             vars[var] = request.GET.get(f'{var}')
-            if vars[var] == None:
+            if (vars[var] == None) & (var != 'limit'):
                 vars[var] = ''
+            elif (vars[var] == None) & (var == 'limit'):
+                vars[var] = 50
         return vars
     
-    filter_list = ['location', 'name', 'sort', 'limit']
+    filter_list = ['location', 'name', 'sort', 'amenity', 'limit']
     filters=get_var_dict(filter_list)
 
     url = 'https://hosteldata.herokuapp.com/json?' + '&'.join([(f + f'={filters[f]}') for f in filters if filters[f]!=''])
