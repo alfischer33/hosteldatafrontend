@@ -27,12 +27,14 @@
                     <th>Hostel Name</th>
                     <th>Hostel Location</th>
                     <th>Hostel Rating</th>
+                    <th>Link</th>
                 </tr>
                 {% for hostel in hostels %}
                 <tr>
                     <td> {{ hostel.name }} </td>
                     <td> {{ hostel.location }} </td>
-                    <td> {{ hostel.rating|floatformat:2 }} </td>
+                    <td> {{ hostel.rating|floatformat:1 }} </td>
+                    <td> <a href={{ hostel.link }}>{{ hostel.name }} link</a> </td>
                 </tr>
                 {% endfor %}
             </table>
