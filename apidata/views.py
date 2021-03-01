@@ -21,6 +21,9 @@ def index(request):
     filter_list = ['location', 'name', 'sort', 'limit', 'amenity', 'csv']
     filters=get_var_dict(filter_list)
 
+    print()
+    print(filters['location'])
+
     url = 'https://hosteldata.herokuapp.com/json?' + '&'.join([(f + f'={filters[f]}') for f in filters if filters[f]!=''])
     print(url)
 
@@ -38,8 +41,25 @@ def index(request):
 
         return response
 
+    
+
+    message = f"Returned the top {len(hostels)} hostels "
+    if filters['amenity'] != '':
+        message += f"with {filters['amenity']} "
+    if filters['location'] != '':
+        message += f"in {filters['location']} "
+    if filters['sort'] != '':
+        message += f"sorted by {filters['sort']} "
+    else: 
+        message += "sorted by rating "
+    print(message)
+
     context = filters.copy()
+    context['message'] = message
     context['hostels'] = hostels
+
+    print(context['location'])
+
 
     return render(request, "apidata/index.html", context)
 

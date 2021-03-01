@@ -12,21 +12,32 @@
     <row>
         <div>
             <form action="" method="GET">
-                Name<input type="text" name="name" value={{name}}>
+                Name<input type="text" name="name" value="{{name}}">
                 Location<input type="text" name="location" value={{location}}>
                 Amenity<input type="text" name="amenity" value={{amenity}}>
-                Limit<input type="number" name="limit" value={{limit}}><br>
+                Sort<input list="sort_options" name="sort">
+                <datalist id="sort_options">
+                    <option value="rating"></option>
+                    <option value="n_reviews"></option>
+                    <option value="usd_prices_from_asc"></option>
+                </datalist>
+                Limit<input type="number" name="limit" value={{limit}}>
                 <button type="submit">Submit</button>
             </form>
         </div>
     </row>
+    <div style="text-align: center;">
+        <h3>{{ message }}</h3>
+    </div>
     <row>
         <div>
             <table>
                 <tr>
                     <th>Hostel Name</th>
                     <th>Hostel Location</th>
-                    <th>Hostel Rating</th>
+                    <th>Rating</th>
+                    <th>Prices From</th>
+                    <th>Number of Reviews</th>
                     <th>Link</th>
                 </tr>
                 {% for hostel in hostels %}
@@ -34,6 +45,8 @@
                     <td> {{ hostel.name }} </td>
                     <td> {{ hostel.location }} </td>
                     <td> {{ hostel.rating|floatformat:1 }} </td>
+                    <td> {{ hostel.usd_prices_from }} </td>
+                    <td> {{ hostel.n_reviews }} </td>
                     <td> <a href={{ hostel.link }}>{{ hostel.name }} link</a> </td>
                 </tr>
                 {% endfor %}
