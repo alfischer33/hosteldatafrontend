@@ -1,5 +1,5 @@
 # hosteldatafrontend
-A simple Django UI to search and serve data from a web-hosted API I created to access a manually compiled database of hostels around the world. Option included to download results as a CSV. 
+Here, I web scraped data on tens of thousands of hostels across the world, cleaned data and added GIS features via Google Maps API and NASA's CEDAC dataset, built joint search functionality for descriptions and amenities, and served results via REST API and a simple Django Frontend.
 
 Use app [here](http://hostelinfo.herokuapp.com/)
 
